@@ -29,7 +29,7 @@ function encode(source) {
   while (padding--) {
     result[--cursor] = 61;
   }
-  return String.fromCharCode(...result);
+  return String.fromCharCode.apply(null, result);
 }
 
 function decode(source) {
