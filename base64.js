@@ -1,10 +1,11 @@
 'use strict';
 
-const ENCODE_BASE64_TABLE = [];
-const DECODE_BASE64_TABLE = [];
+var ENCODE_BASE64_TABLE = [];
+var DECODE_BASE64_TABLE = [];
 (function(characters) {
-  for (let index = characters.length - 1; index >= 0; --index) {
-    let code = characters.charCodeAt(index);
+  var index, code;
+  for (index = characters.length - 1; index >= 0; --index) {
+    code = characters.charCodeAt(index);
     ENCODE_BASE64_TABLE[index] = code & 0xff;
     DECODE_BASE64_TABLE[code] = index;
   }
@@ -12,13 +13,14 @@ const DECODE_BASE64_TABLE = [];
 })('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/');
 
 function encode(source) {
-  let sourceLength = source.length;
-  let padding = 3 - (sourceLength % 3 || 3);
-  let length = Math.floor((sourceLength + 2) / 3) * 4;
-  let result = new Uint8Array(length);
-  let cursor = 0;
-  for (let i = 0; i < sourceLength; cursor += 4, i += 3) {
-    let bits = (source[i] & 0xff) << 16
+  var sourceLength = source.length;
+  var padding = 3 - (sourceLength % 3 || 3);
+  var length = Math.floor((sourceLength + 2) / 3) * 4;
+  var result = new Uint8Array(length);
+  var cursor = 0;
+  var i, bits;
+  for (i = 0; i < sourceLength; cursor += 4, i += 3) {
+    bits = (source[i] & 0xff) << 16
       | (source[i + 1] & 0xff) << 8
       | (source[i + 2] & 0xff);
     result[cursor] = ENCODE_BASE64_TABLE[bits >> 18 & 0x3f];
@@ -33,12 +35,13 @@ function encode(source) {
 }
 
 function decode(source) {
-  let sourceLength = source.length;
-  let padding = source.slice(sourceLength - 2).split('=').length - 1;
-  let length = Math.floor((sourceLength + 3) / 4) * 3 - padding;
-  let result = new Uint8Array(length);
-  for (let cursor = 0, i = 0; i < sourceLength; cursor += 3, i += 4) {
-    let bits = DECODE_BASE64_TABLE[source[i].charCodeAt(0)] << 18
+  var sourceLength = source.length;
+  var padding = source.slice(sourceLength - 2).split('=').length - 1;
+  var length = Math.floor((sourceLength + 3) / 4) * 3 - padding;
+  var result = new Uint8Array(length);
+  var cursor, i, bits;
+  for (cursor = 0, i = 0; i < sourceLength; cursor += 3, i += 4) {
+    bits = DECODE_BASE64_TABLE[source[i].charCodeAt(0)] << 18
       | DECODE_BASE64_TABLE[source[i + 1].charCodeAt(0)] << 12
       | DECODE_BASE64_TABLE[source[i + 2].charCodeAt(0)] << 6
       | DECODE_BASE64_TABLE[source[i + 3].charCodeAt(0)];
