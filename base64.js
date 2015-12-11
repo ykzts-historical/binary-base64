@@ -14,7 +14,7 @@ const DECODE_BASE64_TABLE = [];
 function encode(source) {
   let sourceLength = source.length;
   let padding = 3 - (sourceLength % 3 || 3);
-  let length = Math.floor((sourceLength + 2) / 3) * 4 + Math.floor(sourceLength / 72);
+  let length = Math.floor((sourceLength + 2) / 3) * 4;
   let result = new Uint8Array(length);
   let cursor = 0;
   for (let i = 0; i < sourceLength; cursor += 4, i += 3) {
