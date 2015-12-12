@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('assert');
 const base64 = require('../base64');
 const Buffer = require('buffer').Buffer;

@@ -26,7 +26,7 @@ function encode(source) {
     result[cursor] = ENCODE_BASE64_TABLE[bits >> 18 & 0x3f];
     result[cursor + 1] = ENCODE_BASE64_TABLE[bits >> 12 & 0x3f];
     result[cursor + 2] = ENCODE_BASE64_TABLE[bits >> 6 & 0x3f];
-    result[cursor + 3] = ENCODE_BASE64_TABLE[bits & 0x3f]
+    result[cursor + 3] = ENCODE_BASE64_TABLE[bits & 0x3f];
   }
   while (padding--) {
     result[--cursor] = 61;
