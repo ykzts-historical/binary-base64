@@ -52,4 +52,7 @@ function decode(source) {
   return result;
 }
 
-module.exports = { encode, decode };
+module.exports = {
+  encode: encode,
+  decode: decode
+};
