@@ -1,8 +1,11 @@
 'use strict';
 
-var base64 = (function() {
-  var ENCODE_BASE64_TABLE = [];
-  var DECODE_BASE64_TABLE = [];
+var base64 = (function Base64Module(stdlib, foreign, heap) {
+  'use asm';
+
+  var ENCODE_BASE64_TABLE = new Uint8Array(64);;
+  var DECODE_BASE64_TABLE = new Uint8Array(128);
+
   (function(characters) {
     var index, code;
     for (index = characters.length - 1; index >= 0; --index) {
@@ -14,13 +17,14 @@ var base64 = (function() {
   })('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/');
 
   function encode(source) {
-    var sourceLength = source.length;
-    var padding = 3 - (sourceLength % 3 || 3);
-    var length = Math.floor((sourceLength + 2) / 3) * 4;
+    var sourceLength = source.length | 0;
+    var padding = (3 - (sourceLength % 3 || 3)) | 0;
+    var length = (((sourceLength + 2) / 3) | 0) * 4;
     var result = new Uint8Array(length);
-    var cursor = 0;
-    var i, bits;
-    for (i = 0; i < sourceLength; cursor += 4, i += 3) {
+    var cursor = 0 | 0;
+    var i = 0 | 0;
+    var bits = 0 | 0;
+    for (; i < sourceLength; cursor += 4, i += 3) {
       bits = (source[i] & 0xff) << 16
         | (source[i + 1] & 0xff) << 8
         | (source[i + 2] & 0xff);
@@ -36,12 +40,14 @@ var base64 = (function() {
   }
 
   function decode(source) {
-    var sourceLength = source.length;
-    var padding = source.slice(sourceLength - 2).split('=').length - 1;
-    var length = Math.floor((sourceLength + 3) / 4) * 3 - padding;
+    var sourceLength = source.length | 0;
+    var padding = (source.slice(sourceLength - 2).split('=').length - 1) | 0;
+    var length = ((((sourceLength + 3) / 4) | 0) * 3 - padding) | 0;
     var result = new Uint8Array(length);
-    var cursor, i, bits;
-    for (cursor = 0, i = 0; i < sourceLength; cursor += 3, i += 4) {
+    var cursor = 0 | 0;
+    var i = 0 | 0;
+    var bits = 0 | 0;
+    for (; i < sourceLength; cursor += 3, i += 4) {
       bits = DECODE_BASE64_TABLE[source[i].charCodeAt(0)] << 18
         | DECODE_BASE64_TABLE[source[i + 1].charCodeAt(0)] << 12
         | DECODE_BASE64_TABLE[source[i + 2].charCodeAt(0)] << 6
@@ -57,7 +63,7 @@ var base64 = (function() {
     encode: encode,
     decode: decode
   };
-})();
+})(typeof global === 'object' ? global : window, null, new ArrayBuffer(0x10000));
 
 if (typeof module === 'object' && typeof module.exports === 'object') {
   module.exports = base64;
