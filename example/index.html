@@ -1,0 +1,17 @@
+<!doctype html>
+<title>binary-base64 example</title>
+<p><output id="base64-encode-result"></output></p>
+<script src="../base64.js"></script>
+<script>
+(function() {
+  var result = document.getElementById('base64-encode-result');
+  var request = new XMLHttpRequest();
+  request.addEventListener('load', function() {
+    var buffer = new Uint8Array(this.response);
+    result.value = base64.encode(buffer);
+  });
+  request.responseType = 'arraybuffer';
+  request.open('get', 'https://www.gravatar.com/avatar/b9025074d487cd0328f1dc816e5ac50a.jpg');
+  request.send(null);
+})();
+</script>
