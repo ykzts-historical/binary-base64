@@ -13,6 +13,11 @@ var base64 = (function() {
     DECODE_BASE64_TABLE['='.charCodeAt(0)] = 0;
   })('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/');
 
+  /**
+   * Encode a binary in base64.
+   * @param {Uint8Array} source - Binary buffer.
+   * @return {string} Base64 encoded characters.
+   */
   function encode(source) {
     var sourceLength = source.length;
     var padding = 3 - (sourceLength % 3 || 3);
@@ -35,6 +40,11 @@ var base64 = (function() {
     return String.fromCharCode.apply(null, result);
   }
 
+  /**
+   * Decode a base64 encoded characters.
+   * @param {string} source - Base64 encoded characters.
+   * @return {Uint8Array} Binary buffer.
+   */
   function decode(source) {
     var sourceLength = source.length;
     var padding = source.slice(sourceLength - 2).split('=').length - 1;
