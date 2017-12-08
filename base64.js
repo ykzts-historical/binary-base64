@@ -1,6 +1,6 @@
-'use strict';
-
 var base64 = (function() {
+  'use strict';
+
   var ENCODE_BASE64_TABLE = [
      65,  66,  67,  68,  69,  70,  71,  72,
      73,  74,  75,  76,  77,  78,  79,  80,
