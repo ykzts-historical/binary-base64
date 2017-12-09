@@ -38,8 +38,8 @@ async function main() {
 main().catch(error => console.error(error));
 ```
 
-[example](/example/)
+[example](./example/)
 
 ### License
 
-[MIT](/LICENSE)
+[MIT](./LICENSE)
