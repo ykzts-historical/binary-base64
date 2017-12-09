@@ -20,20 +20,26 @@ async function getDataUri(uri) {
   return `data:${type};base64,${base64.encode(buffer)}`;
 }
 
-function getBlobFromDataUri(uri) {
-  return new Promise(function(resolve, reject) {
-    const [ , type, base64EncodedString ] = uri.match('data:([^;]+);base64,(.+)') || [];
-    if (typeof type === 'undefined' && typeof base64EncodedString === 'undefined') {
-      return reject(new TypeError('Invalid data URI.'));
-    }
-    return resolve(new Blob([base64.decode(base64EncodedString)], { type }));
-  });
-}
+const getBlobFromDataUri = (uri) => new Promise((resolve, reject) => {
+  const [, type, base64EncodedString] = uri.match('data:([^;]+);base64,(.+)') || [];
+  if (typeof type === 'undefined' && typeof base64EncodedString === 'undefined') {
+    return reject(new TypeError('Invalid data URI.'));
+  }
+  return resolve(new Blob([base64.decode(base64EncodedString)], { type }));
+});
 
-(async function() {
+async function main() {
   const dataUri = await getDataUri('https://www.gravatar.com/avatar/b9025074d487cd0328f1dc816e5ac50a.jpg');
   console.log(dataUri);
   const blob = await getBlobFromDataUri(dataUri);
   console.log(URL.createObjectURL(blob));
-})();
+}
+
+main().catch(error => console.error(error));
 ```
+
+[example](/example/)
+
+### License
+
+[MIT](/LICENSE)
